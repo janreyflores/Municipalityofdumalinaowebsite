@@ -10,20 +10,25 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { ProfilePage } from "./pages/ProfilePage";
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      Component: RootLayout,
+      children: [
+        { index: true, Component: HomePage },
+        { path: "about", Component: AboutPage },
+        { path: "services", Component: ServicesPage },
+        { path: "tourism", Component: TourismPage },
+        { path: "news", Component: NewsPage },
+        { path: "contact", Component: ContactPage },
+        { path: "login", Component: LoginPage },
+        { path: "register", Component: RegisterPage },
+        { path: "profile", Component: ProfilePage },
+      ],
+    },
+  ],
   {
-    path: "/",
-    Component: RootLayout,
-    children: [
-      { index: true, Component: HomePage },
-      { path: "about", Component: AboutPage },
-      { path: "services", Component: ServicesPage },
-      { path: "tourism", Component: TourismPage },
-      { path: "news", Component: NewsPage },
-      { path: "contact", Component: ContactPage },
-      { path: "login", Component: LoginPage },
-      { path: "register", Component: RegisterPage },
-      { path: "profile", Component: ProfilePage },
-    ],
-  },
-]);
+    basename: "/Municipalityofdumalinaowebsite/", // ✅ IMPORTANT
+  }
+);
