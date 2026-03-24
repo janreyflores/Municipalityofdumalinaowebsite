@@ -29,6 +29,6 @@ export const router = createBrowserRouter(
     },
   ],
   {
-    basename: "/Municipalityofdumalinaowebsite/", // ✅ IMPORTANT
+    basename: "/Municipalityofdumalinaowebsite/",
   }
 );
