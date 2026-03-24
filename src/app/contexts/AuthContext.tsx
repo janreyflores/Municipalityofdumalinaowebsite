@@ -15,7 +15,9 @@ interface User {
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (userData: Omit<User, "id" | "createdAt"> & { password: string }) => Promise<boolean>;
+  register: (
+    userData: Omit<User, "id" | "createdAt"> & { password: string }
+  ) => Promise<boolean>;
   logout: () => void;
   updateProfile: (userData: Partial<User>) => Promise<boolean>;
   isAuthenticated: boolean;
@@ -26,7 +28,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
-  // Load user from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("dumalinao_user");
     if (storedUser) {
@@ -35,10 +36,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Mock login - check localStorage for registered users
     const usersJson = localStorage.getItem("dumalinao_users");
     const users = usersJson ? JSON.parse(usersJson) : [];
-    
+
     const foundUser = users.find(
       (u: any) => u.email === email && u.password === password
     );
@@ -53,12 +53,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return false;
   };
 
-  const register = async (userData: Omit<User, "id" | "createdAt"> & { password: string }): Promise<boolean> => {
-    // Mock registration - store in localStorage
+  const register = async (
+    userData: Omit<User, "id" | "createdAt"> & { password: string }
+  ): Promise<boolean> => {
     const usersJson = localStorage.getItem("dumalinao_users");
     const users = usersJson ? JSON.parse(usersJson) : [];
 
-    // Check if email already exists
     if (users.some((u: any) => u.email === userData.email)) {
       return false;
     }
@@ -91,11 +91,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(updatedUser);
     localStorage.setItem("dumalinao_user", JSON.stringify(updatedUser));
 
-    // Update in users array
     const usersJson = localStorage.getItem("dumalinao_users");
     const users = usersJson ? JSON.parse(usersJson) : [];
     const userIndex = users.findIndex((u: any) => u.id === user.id);
-    
+
     if (userIndex !== -1) {
       users[userIndex] = { ...users[userIndex], ...userData };
       localStorage.setItem("dumalinao_users", JSON.stringify(users));
